@@ -5,8 +5,11 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.awt.*;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "user")
@@ -26,6 +29,9 @@ public class User {
     @NotNull
     private String email;
     @NotNull
+    @Size(min = 5, message = "Password must be greater than 5 characters")
+    private String password;
+    @NotNull
     private String gender;
     @NotNull
     private Date dob;
@@ -40,6 +46,15 @@ public class User {
     private String bio;
 
     private byte imageData;
+
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "user_connection",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "connection_id")
+    )
+    private Set<User> connections = new HashSet<>();
 
 
 
