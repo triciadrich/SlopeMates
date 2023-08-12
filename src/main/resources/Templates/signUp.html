@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+
+<!--    <link rel="stylesheet" type="text/css" href="css/style.css">-->
+    <title>Slope Mates</title>
+
+
+</head>
+<body>
+<div class="container">
+<form action="#" th:action="@{/reg}" th:object="${User}" method="post">
+    <label>User Name</label><input type="text" th:field="*{userName}"/>
+    <label>Email</label><input type="email" class="form-control" th:field="*{email}"/>
+    <label>Password</label><input type="password" th:field="*{password}"/>
+    <label>Gender</label>
+    <div class="input-field col s12">
+    <select class="browser-default" th:field="*{gender}">
+        <option value="Male">Male</option>
+        <option  value="Female">Female</option>
+        <option value="Nonbinary">Non-binary</option>
+        <option value="Other">Other</option>
+
+    </select>
+    </div>
+    <label>Date of Birth</label>
+    <input type="date" th:field="*{dob}"/>
+    <label>State</label>
+    <input type="text" th:field="*{state}"/>
+    <label>City</label>
+    <input type="text" th:field="*{city}"/>
+    <label>Skill level</label>
+    <div class="input-field col s12">
+    <select class="browser-default"  th:field="*{skillLevel}">
+        <option value="Beginner">Beginner</option>
+        <option  value="Intermediate">Intermediate</option>
+        <option value="Advanced">Advanced</option>
+        <option value="Expert">Expert</option>
+    </select>
+    </div>
+    <label>Sport</label>
+    <div class="input-field col s12">
+    <select class="browser-default" th:field="*{snowSport}">
+        <option value="Ski">Ski</option>
+        <option value="Snowboard">Snowboard</option>
+        <option value="Both">Both</option>
+    </select>
+    </div>
+    <label>Style</label>
+    <input type="text" th:field="*{style}"/>
+    <label>Bio/Intro</label>
+    <textarea th:field="*{bio}"></textarea>
+    <button type="submit">Submit</button>
+</form>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var elems = document.querySelectorAll('select');
+        var instances = M.FormSelect.init(elems, drodownOptions);
+    });
+</script>
+<!--JavaScript at end of body for optimized loading-->
+<script type="text/javascript" src="js/materialize.min.js"></script>
+</body>
+</html>

@@ -43,6 +43,7 @@ public class User {
     private String skillLevel;
     @NotNull
     private String snowSport;
+    private String style;
     private String bio;
 
     private byte imageData;
