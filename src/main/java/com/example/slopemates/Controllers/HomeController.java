@@ -24,6 +24,7 @@ public class HomeController {
 
     @GetMapping("/join")
     public String signUp(@ModelAttribute("User")User user, Model model){
+    model.addAttribute("user", user);
 
         return "signUp";
     }
@@ -34,6 +35,7 @@ public class HomeController {
             return "signUp";
         }
         User u = userService.registerUser(user);
+
         session.setAttribute("userId", u.getId());
         return "dashBoard";
     }
