@@ -22,8 +22,8 @@ public class HomeController {
         return"index";
     }
 
-    @GetMapping("/join")
-    public String signUp(@ModelAttribute("User")User user, Model model){
+    @RequestMapping ("/join")
+    public String signUp(@ModelAttribute("user")User user, Model model){
     model.addAttribute("user", user);
 
         return "signUp";
@@ -32,12 +32,13 @@ public class HomeController {
     @PostMapping("/reg")
     public String register(@Valid @ModelAttribute("user") User user, BindingResult result, HttpSession session){
         if(result.hasErrors()){
-            return "signUp";
+            System.out.println(result);
+                return "redirect:/join";
         }
         User u = userService.registerUser(user);
 
         session.setAttribute("userId", u.getId());
-        return "dashBoard";
+        return "redirect:/userProfile";
     }
 
     @GetMapping("/userProfile")

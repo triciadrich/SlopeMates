@@ -7,7 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.Optional;
+
+import static java.time.LocalDate.*;
 
 @Service
 public class UserService {
@@ -15,9 +21,15 @@ public class UserService {
     private UserRepository userRepository;
 
     public User registerUser(User user){
-        String hashed = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
-        user.setPassword(hashed);
+    try{
+        user.setUserName(user.getUserName());
+        user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
         return userRepository.save(user);
+
+    } catch (Exception e) {
+        throw new RuntimeException(e);
+    }
+
     }
 
     public boolean authUser(String email, String password){

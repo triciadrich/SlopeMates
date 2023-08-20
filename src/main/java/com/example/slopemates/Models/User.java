@@ -1,13 +1,13 @@
 package com.example.slopemates.Models;
 
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.awt.*;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -34,10 +34,12 @@ public class User {
     @NotNull
     private String gender;
     @NotNull
-    private Date dob;
+    @DateTimeFormat(pattern = "MM-dd-yyy")
+    private LocalDate dob;
     @NotNull
     private String city;
     @NotNull
+    @Size(min = 2, max = 2, message = "Please enter 2 character state abbreviation")
     private String state;
     @NotNull
     private String skillLevel;

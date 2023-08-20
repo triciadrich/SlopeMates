@@ -14,7 +14,7 @@
 </head>
 <body>
 <div class="container">
-<form action="#" th:action="@{/reg}" method="post" th:object="${user}">
+<form th:action="@{/reg}" method="post" enctype="multipart/form-data" th:object="${user}">
     <label>User Name</label><input type="text" th:field="*{userName}"/>
     <label>Email</label><input type="email" class="form-control" th:field="*{email}"/>
     <label>Password</label><input type="password" th:field="*{password}"/>
@@ -57,16 +57,17 @@
     <textarea class="materialize-textarea" th:field="*{bio}"></textarea>
     <label>Profile Image</label>
     <input type="file" th:field="*{imageData}"/>
-    <button type="submit">Submit</button>
+    <button class="btn waves-effect waves-light blue lighten-1" type="submit" name="action">Submit
+        <i class="material-icons right">send</i></button>
 </form>
 </div>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var elems = document.querySelectorAll('select');
-        var instances = M.FormSelect.init(elems, drodownOptions);
-    });
-</script>
-<!--JavaScript at end of body for optimized loading-->
-<script type="text/javascript" src="js/materialize.min.js"></script>
+<!--<script>-->
+<!--    document.addEventListener('DOMContentLoaded', function() {-->
+<!--        var elems = document.querySelectorAll('select');-->
+<!--        var instances = M.FormSelect.init(elems, drodownOptions);-->
+<!--    });-->
+<!--</script>-->
+<!--&lt;!&ndash;JavaScript at end of body for optimized loading&ndash;&gt;-->
+<!--<script type="text/javascript" src="js/materialize.min.js"></script>-->
 </body>
 </html>
