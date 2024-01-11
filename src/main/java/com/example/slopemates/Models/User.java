@@ -7,9 +7,10 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
+import java.time.*;
+import java.util.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 @Entity
 @Table(name = "user")
@@ -34,8 +35,11 @@ public class User {
     @NotNull
     private String gender;
     @NotNull
-    @DateTimeFormat(pattern = "MM-dd-yyy")
-    private LocalDate dob;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Setter
+    private Date dob;
+    @Setter
+    private Integer age;
     @NotNull
     private String city;
     @NotNull
@@ -48,7 +52,13 @@ public class User {
     private String style;
     private String bio;
 
-    private byte imageData;
+    private String fileName;
+    private String fileType;
+    @Lob
+    private byte[] data;
+    @Transient
+    private String downloadUrl;
+
 
 
     @ManyToMany(cascade = CascadeType.ALL)
@@ -57,9 +67,27 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "connection_id")
     )
-    private Set<User> connections = new HashSet<>();
+    private List<User> connections;
 
 
+
+    @Transient
+    public String getBase64Image() {
+        if (data != null && data.length > 0) {
+            return Base64.getEncoder().encodeToString(data);
+        }
+        return null;
+    }
+
+
+    public void setAge(Integer age) {
+
+        Calendar today = Calendar.getInstance();
+        Calendar birth = Calendar.getInstance();
+        birth.setTime(dob);
+    this.age = today.get(Calendar.YEAR) - birth.get(Calendar.YEAR);
+
+    }
 
 
 

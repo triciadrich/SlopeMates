@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+  <link type="text/css" rel="stylesheet" href="/css/materialize.min.css"  media="screen,projection"/>
+  <link rel="stylesheet" type="text/css" href="/css/style.css">
+
+  <link rel="stylesheet" href="/static/css/js/materialize.min.js">
+  <link rel="stylesheet" type="text/css" href="css/style.css">
+    <title>Title</title>
+</head>
+<body>
+<nav class="nav-wrapper">
+  <ul>
+    <li><img class="logonav" src="/images/Screenshot 2023-08-28 at 7.23.40 PM.png" alt="slopemates logo"/></li>
+    <li><a href="/join">Sign up</a> </li>
+    <li><a href="/login">Log in</a> </li>
+    <li><a href="/logout">Log out</a> </li>
+    <li th:text="${loggedUser.userName}"></li>
+  </ul>
+</nav>
+<h3>User Search</h3>
+<div class="container">
+<form th:action="@{/search}" method="post" th:object="${criteria}">
+  <label>
+    <input type="text" th:field="*{skillLevel}" placeholder="Skill Level">
+  </label>
+  <label>
+    <input type="text" th:field="*{state}" placeholder="State">
+  </label>
+  <label>
+    <input type="text" th:field="*{snowSport}" placeholder="Sport">
+  </label>
+  <label>
+    <input type="text" th:field="*{style}" placeholder="Style">
+  </label>
+    <label>
+    <input type="number" th:field="*{minAge}" placeholder="Min age">
+  </label>
+  <label>
+    <input type="number" th:field="*{maxAge}" placeholder="Max age">
+  </label>
+
+
+  <button type="submit">Search</button>
+</form>
+
+<table>
+  <thead>
+  <tr>
+    <th></th>
+    <th>Name</th>
+    <th>Age</th>
+    <th>Style</th>
+    <th>State</th>
+    <th>City</th>
+    <th>Skill level</th>
+    <th>Connect</th>
+
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="user : ${users}">
+    <th:block th:unless="${user.id == loggedUser.id}"></th:block>
+    <td> <img class="searchImg" th:if="${user.base64Image}" th:src="'data:image/jpeg;base64,' + ${user.base64Image}" alt="Profile Image"></td>
+    <td th:text="${user.userName}"></td>
+    <td th:text="${user.age}"></td>
+    <td th:text="${user.style}"></td>
+    <td th:text="${user.state}"></td>
+    <td th:text="${user.city}"></td>
+    <td th:text="${user.skillLevel}"></td>
+    <td th:text="${user.snowSport}"></td>
+    <td>
+      <form th:action="@{/sendRequest}" method="post">
+        <input type="hidden" th:name="requesterId" th:value="${loggedUser.id}">
+        <input type="hidden" th:name="recipientId" th:value="${user.id}"/>
+        <button type="submit">Connect</button>
+      </form>
+
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+</div>
+
+</body>
+</html>

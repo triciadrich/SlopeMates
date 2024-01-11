@@ -1,57 +1,57 @@
-*{
-    margin: 0 auto;
+
+
+nav{
+    margin-bottom: 20px;
+    background-color: #44205a;
 }
 
-input {
-    width: 50%;
+.logo {
+    width: 20%;
+    margin-left: 20px;
 }
 
-/*input[type=text] {*/
-/*    width: 50%;*/
-/*    padding: 12px 20px;*/
-/*    margin: 8px 0;*/
-/*    */
-/*}*/
+.logonav{
+    width: 50px;
+    height: 50px;
+    margin-top: 5px;
 
-input[type=text] {
-    border: black;
-    border-radius: 10px;
 }
 
-input[type=text]:focus {
-    border: 3px solid #555;
+
+
+@media screen and (max-width: 984px) {
+    .top{
+
+        flex-direction: column;
+    }
 }
 
-textarea {
-    width: 50%;
-    height: 150px;
-    padding: 12px 20px;
-    box-sizing: border-box;
-    border: 5px solid #ccc;
-    border-radius: 10px;
-    background-color: aliceblue;
-    resize: none;
-}
-
-select {
-    width: 50%;
-    padding: 16px 20px;
-    border: none;
-    border-radius: 4px;
-    background-color: #f1f1f1;
-}
-
-input[type=button], input[type=submit], input[type=reset] {
-    background-color: #04AA6D;
-    border: none;
-    color: white;
-    padding: 16px 32px;
-    text-decoration: none;
-    margin: 4px 2px;
-    cursor: pointer;
-}
-
-form{
+.top{
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+}
+
+ul{
+    padding-left: 50px;
+    color: #4ea9a6
+}
+
+button{
+    margin-top: 10px;
+}
+
+.wrapper{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.card{
+    padding: 10px;
+    margin-left: 20px;
+}
+
+.searchImg{
+    width: 20%;
 }

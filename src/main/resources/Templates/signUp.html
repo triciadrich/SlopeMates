@@ -5,7 +5,7 @@
     <!--Import Google Icon Font-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!--Import materialize.css-->
-    <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="/css/materialize.min.css"  media="screen,projection"/>
 
 <!--    <link rel="stylesheet" type="text/css" href="css/style.css">-->
     <title>Slope Mates</title>
@@ -56,7 +56,7 @@
     <label>Bio/Intro</label>
     <textarea class="materialize-textarea" th:field="*{bio}"></textarea>
     <label>Profile Image</label>
-    <input type="file" th:field="*{imageData}"/>
+    <input type="file" th:field="*{data}" accept="image/*"/>
     <button class="btn waves-effect waves-light blue lighten-1" type="submit" name="action">Submit
         <i class="material-icons right">send</i></button>
 </form>
@@ -64,7 +64,7 @@
 <!--<script>-->
 <!--    document.addEventListener('DOMContentLoaded', function() {-->
 <!--        var elems = document.querySelectorAll('select');-->
-<!--        var instances = M.FormSelect.init(elems, drodownOptions);-->
+<!--        var instances = M.FormSelect.init(elems, dropdownOptions);-->
 <!--    });-->
 <!--</script>-->
 <!--&lt;!&ndash;JavaScript at end of body for optimized loading&ndash;&gt;-->

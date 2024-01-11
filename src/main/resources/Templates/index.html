@@ -1,16 +1,38 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+   <link rel="stylesheet" type="text/css" href="css/style.css">
     <title>Slope Mates</title>
 </head>
 <body>
-<nav>
+<nav class="nav-wrapper">
     <ul>
+        <li><img class="logonav" src="/images/Screenshot 2023-08-28 at 7.23.40 PM.png" alt="slopemates logo"/></li>
         <li><a href="/join">Sign up</a> </li>
         <li><a href="/login">Log in</a> </li>
         <li><a href="/logout">Log out</a> </li>
+        <li><a href="/userProfile">Profile</a></li>
     </ul>
 </nav>
+<div class="top">
+<img class="logo" src="/images/Screenshot 2023-08-28 at 7.23.40 PM.png" alt="slopemates logo"/>
+   <p th:text="${error}">invalid</p>
+<form class="container" th:action="@{/login}" method="post" th:object="${user}">
+
+    <label>
+      Email:</label>
+        <input type="email" th:field="*{email}"/>
+
+    <label>Password:</label>
+        <input type="password" th:field="*{password}"/>
+    <button class="purple darken-4 btn waves-effect waves light" type="submit">Submit <i class="material-icons right">send</i></button>
+
+
+</form>
+</div>
 </body>
 </html>
