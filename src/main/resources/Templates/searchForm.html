@@ -4,12 +4,14 @@
     <meta charset="UTF-8">
   <link type="text/css" rel="stylesheet" href="/css/materialize.min.css"  media="screen,projection"/>
   <link rel="stylesheet" type="text/css" href="/css/style.css">
-
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="/static/css/js/materialize.min.js">
   <link rel="stylesheet" type="text/css" href="css/style.css">
     <title>Title</title>
 </head>
 <body>
+
+<!-- Top navigation -->
 <nav class="nav-wrapper">
   <ul>
     <li><img class="logonav" src="/images/Screenshot 2023-08-28 at 7.23.40 PM.png" alt="slopemates logo"/></li>
@@ -19,35 +21,43 @@
     <li th:text="${loggedUser.userName}"></li>
   </ul>
 </nav>
-<h3>User Search</h3>
-<div class="container">
-<form th:action="@{/search}" method="post" th:object="${criteria}">
-  <label>
-    <input type="text" th:field="*{skillLevel}" placeholder="Skill Level">
-  </label>
-  <label>
-    <input type="text" th:field="*{state}" placeholder="State">
-  </label>
-  <label>
-    <input type="text" th:field="*{snowSport}" placeholder="Sport">
-  </label>
-  <label>
-    <input type="text" th:field="*{style}" placeholder="Style">
-  </label>
+
+<!-- Side nav slide out search filter -->
+<div id="slide-out" class="sidenav">
+  <img class="searchImg circle" th:if="${loggedUser.base64Image}" th:src="'data:image/jpeg;base64,' + ${loggedUser.base64Image}" alt="Profile Image">
+  <form class="center" th:action="@{/search}" method="post" th:object="${criteria}">
     <label>
-    <input type="number" th:field="*{minAge}" placeholder="Min age">
-  </label>
-  <label>
-    <input type="number" th:field="*{maxAge}" placeholder="Max age">
-  </label>
+      <input type="text" th:field="*{skillLevel}" placeholder="Skill Level">
+    </label>
+    <label>
+      <input type="text" th:field="*{state}" placeholder="State">
+    </label>
+    <label>
+      <input type="text" th:field="*{snowSport}" placeholder="Sport">
+    </label>
+    <label>
+      <input type="text" th:field="*{style}" placeholder="Style">
+    </label>
+    <label>
+      <input type="number" th:field="*{minAge}" placeholder="Min age">
+    </label>
+    <label>
+      <input type="number" th:field="*{maxAge}" placeholder="Max age">
+    </label>
 
 
-  <button type="submit">Search</button>
-</form>
+    <button class="purple darken-4 btn waves-light" type="submit">Search</button>
+  </form>
+</div>
+<a href="#" data-target="slide-out" class="sidenav-trigger">Filters</a>
 
-<table>
+<!-- Search Results -->
+
+<div class="container">
+  <table>
   <thead>
   <tr>
+    <th></th>
     <th></th>
     <th>Name</th>
     <th>Age</th>
@@ -60,9 +70,25 @@
   </tr>
   </thead>
   <tbody>
-  <tr th:each="user : ${users}">
-    <th:block th:unless="${user.id == loggedUser.id}"></th:block>
+  <tr th:each="user, iterStat : ${users}">
+
     <td> <img class="searchImg" th:if="${user.base64Image}" th:src="'data:image/jpeg;base64,' + ${user.base64Image}" alt="Profile Image"></td>
+    <td><!-- Modal Trigger -->
+      <a class="purple darken-4 waves-effect waves-light btn modal-trigger" th:href="'#modal' + ${iterStat.index}">View</a>
+
+      <!-- Modal Structure -->
+      <div th:id="'modal' + ${iterStat.index}" class="modal">
+        <div class="modal-content">
+          <img class="responsive-img" th:if="${user.base64Image}" th:src="'data:image/jpeg;base64,' + ${user.base64Image}" alt="Profile Image">
+
+          <h4 th:text="${user.userName}">"</h4>
+          <p>A bunch of text</p>
+        </div>
+        <div class="modal-footer">
+          <a href="" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+        </div>
+      </div>
+    </td>
     <td th:text="${user.userName}"></td>
     <td th:text="${user.age}"></td>
     <td th:text="${user.style}"></td>
@@ -72,17 +98,27 @@
     <td th:text="${user.snowSport}"></td>
     <td>
       <form th:action="@{/sendRequest}" method="post">
-        <input type="hidden" th:name="requesterId" th:value="${loggedUser.id}">
-        <input type="hidden" th:name="recipientId" th:value="${user.id}"/>
-        <button type="submit">Connect</button>
+        <input type="hidden" th:name="requester" th:value="${loggedUser.id}">
+        <input type="hidden" th:name="recipient" th:value="${user.id}"/>
+        <button class="purple darken-4 btn waves-light" type="submit">Connect</button>
       </form>
 
     </td>
   </tr>
   </tbody>
 </table>
-
 </div>
+
+
+
+<link rel="stylesheet" href="/static/css/js/materialize.min.js">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    M.AutoInit();
+  });
+</script>
+
 
 </body>
 </html>

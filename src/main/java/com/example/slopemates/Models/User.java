@@ -50,6 +50,7 @@ public class User {
     @NotNull
     private String snowSport;
     private String style;
+    @Size(max = 5000)
     private String bio;
 
     private String fileName;
@@ -68,6 +69,14 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "connection_id")
     )
     private List<User> connections;
+
+    @ManyToMany
+    @JoinTable(
+            name = "connection_requests",
+            joinColumns = @JoinColumn(name = "requester_id"),
+            inverseJoinColumns = @JoinColumn(name = "recipient_id")
+    )
+    private List<User> connectionRequests;
 
 
 

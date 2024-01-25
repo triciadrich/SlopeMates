@@ -1,9 +1,7 @@
 package com.example.slopemates.Services;
 
-import com.example.slopemates.Models.ConnectionRequest;
 import com.example.slopemates.Models.RequestStatus;
 import com.example.slopemates.Models.User;
-import com.example.slopemates.Repositories.ConnectionRequestRepository;
 import com.example.slopemates.Repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.security.crypto.bcrypt.BCrypt;
@@ -17,8 +15,8 @@ import java.util.Optional;
 public class UserService {
     @Autowired
     private UserRepository userRepository;
-    @Autowired
-    private ConnectionRequestRepository connectionRequestRepository;
+
+
 
     public User registerUser(User user){
     try{
@@ -63,51 +61,39 @@ public class UserService {
 
 
 
-    public void sendConnectionRequest(Long requesterId, Long recipientId ){
-        User requester = userRepository.findById(requesterId).orElseThrow();
-        User recipient = userRepository.findById(recipientId).orElseThrow();
+    public void sendConnectionRequest(User requester, User recipient ){
+        requester = userRepository.findById(requester.getId()).orElseThrow();
+        recipient = userRepository.findById(recipient.getId()).orElseThrow();
 
-        ConnectionRequest connectionRequest = new ConnectionRequest();
-        connectionRequest.setRequester(requester);
-        connectionRequest.setRecipient(recipient);
-        connectionRequest.setRequestStatus(RequestStatus.PENDING);
-        connectionRequestRepository.save(connectionRequest);
+        recipient.getConnectionRequests().add(requester);
+
+        userRepository.save(recipient);
 
 
     }
 
-    public void addConnection(Long requestId){
-        ConnectionRequest request = connectionRequestRepository.findById(requestId).orElseThrow();
+    public void addConnection(User req, User rec){
+        req = userRepository.findById(req.getId()).orElseThrow();
+        rec = userRepository.findById(rec.getId()).orElseThrow();
 
-        if (request.getRequestStatus() == RequestStatus.PENDING){
-            request.setRequestStatus(RequestStatus.ACCEPTED);
+            req.getConnections().add(rec);
+            rec.getConnections().add(req);
+            rec.getConnectionRequests().remove(req);
+            userRepository.save(req);
+            userRepository.save(rec);
 
-            User requester = request.getRequester();
-            User recipient = request.getRecipient();
-
-            requester.getConnections().add(recipient);
-            recipient.getConnections().add(requester);
-
-            userRepository.save(requester);
-            userRepository.save(recipient);
-
-            connectionRequestRepository.deleteById(requestId);
-        }
-    }
-
-    public void declineConnection(Long requestId){
-        ConnectionRequest request = connectionRequestRepository.findById(requestId).orElseThrow();
-
-        if (request.getRequestStatus() == RequestStatus.PENDING){
-            request.setRequestStatus(RequestStatus.DECLINED);
-            connectionRequestRepository.deleteById(requestId);
 
         }
+
+
+    public void declineConnection(User req, User rec){
+        rec.getConnectionRequests().remove(req);
+
+        userRepository.save(rec);
+
     }
 
-    public List<ConnectionRequest> getConnectionRequests(Long userId){
-        return connectionRequestRepository.findAllById(userId);
-    }
+
 
 
 

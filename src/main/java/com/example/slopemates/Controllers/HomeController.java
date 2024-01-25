@@ -1,6 +1,5 @@
 package com.example.slopemates.Controllers;
 
-import com.example.slopemates.Models.ConnectionRequest;
 import com.example.slopemates.Models.SearchCriteria;
 import com.example.slopemates.Models.User;
 import com.example.slopemates.Repositories.UserRepository;
@@ -97,7 +96,7 @@ public class HomeController {
     }
 
     @GetMapping("/userProfile")
-    public String UserProfile(@ModelAttribute("user") User user, @ModelAttribute("connectionRequest") ConnectionRequest connectionRequest, HttpSession session, Model model){
+    public String UserProfile(@ModelAttribute("user") User user, HttpSession session, Model model){
         if(session.getAttribute("userId") == null){//get the user in session
             return "index";
         }
@@ -105,8 +104,6 @@ public class HomeController {
         User u = userService.findByUserId(userId);
         model.addAttribute("user", u);
 
-        List<ConnectionRequest> connectionRequests = userService.getConnectionRequests(userId);//gets connection requests for logged in user
-        model.addAttribute("connectionRequests", connectionRequests);
 
 
 
@@ -157,23 +154,30 @@ public class HomeController {
     }
 
     @PostMapping("/sendRequest")
-    public ResponseEntity<String> sendConnectionRequest(@RequestParam Long requesterId, @RequestParam Long recipientId){
-        userService.sendConnectionRequest(requesterId,recipientId);
+    public ResponseEntity<String> sendConnectionRequest(@RequestParam User requester, @RequestParam User recipient){
+        userService.sendConnectionRequest(requester,recipient);
         return ResponseEntity.ok("Connection request sent");
     }
 
     @PostMapping("/acceptRequest")
-    public ResponseEntity<String> acceptConnectionRequest(@RequestParam Long requestId){
-        userService.addConnection(requestId);
+    public ResponseEntity<String> acceptConnectionRequest(@RequestParam User req, @RequestParam User rec){
+        userService.addConnection(req,rec);
         return ResponseEntity.ok("Connection Request Accepted");
     }
 
     @PostMapping("/declineRequest")
-    public ResponseEntity<String> declineConnectionRequest(@RequestParam Long requestId){
-        userService.declineConnection(requestId);
+    public ResponseEntity<String> declineConnectionRequest(@RequestParam User rec ,@RequestParam User req){
+        userService.declineConnection(req,rec);
 
         return ResponseEntity.ok("Connection Request declined");
     }
+
+    @GetMapping("/logout")
+    public String logout(HttpSession session){
+        session.invalidate();
+        return "redirect:/";
+    }
+
 
 
 }
